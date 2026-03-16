@@ -7,7 +7,7 @@ const ALBUMS = [
   {
     id: 'anniversary',
     title: 'Anniversary Collection',
-    cover: 'Anniversary/DSC_0109.JPG',
+    cover: 'Anniversary/DSC_0002.JPG',
     count: 150,
     prefix: 'Anniversary/DSC_',
   }
