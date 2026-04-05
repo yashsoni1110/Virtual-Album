@@ -10,18 +10,31 @@ const ALBUMS = [
     cover: 'Anniversary/DSC_0002.JPG',
     count: 150,
     prefix: 'Anniversary/DSC_',
+    padLength: 4,
+    extension: 'JPG'
+  },
+  {
+    id: 'birthday',
+    title: 'Birthday Celebration',
+    cover: 'Birthday/1.jpg',
+    count: 17,
+    prefix: 'Birthday/',
+    padLength: 0,
+    extension: 'jpg'
   }
 ];
 
-// Helper to get all photos from the anniversary collection
+// Helper to get all photos from all collections
 const getAllPhotos = () => {
-  return Array.from({ length: 150 }, (_, i) => {
-    const id = i + 1;
-    const num = String(id).padStart(4, '0');
-    return {
-      id: `home-${id}`,
-      img: `Anniversary/DSC_${num}.JPG`,
-    };
+  return ALBUMS.flatMap(album => {
+    return Array.from({ length: album.count }, (_, i) => {
+      const id = i + 1;
+      const num = album.padLength ? String(id).padStart(album.padLength, '0') : String(id);
+      return {
+        id: `home-${album.id}-${id}`,
+        img: `${album.prefix}${num}.${album.extension}`,
+      };
+    });
   });
 };
 
@@ -36,10 +49,10 @@ const Gallery = ({ onOpenImage, view }) => {
   const getAlbumImages = (album) => {
     return Array.from({ length: album.count }, (_, i) => {
       const id = i + 1;
-      const num = String(id).padStart(4, '0');
+      const num = album.padLength ? String(id).padStart(album.padLength, '0') : String(id);
       return {
         id: `${album.id}-${id}`,
-        img: `${album.prefix}${num}.JPG`,
+        img: `${album.prefix}${num}.${album.extension}`,
       };
     });
   };
