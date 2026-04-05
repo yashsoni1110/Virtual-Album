@@ -11,15 +11,13 @@ const Navbar = ({ setView, currentView }) => {
     
     if (target === 'home') {
       setView('home');
-    } else if (target === 'galleries') {
-      setView('galleries');
     } else if (target === 'contact') {
       setView('contact');
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navItems = ['Home', 'Galleries', 'Contact'];
+  const navItems = ['Home', 'Contact'];
 
   return (
     <header className="glass-nav fixed top-0 w-full z-40">

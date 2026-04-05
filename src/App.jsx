@@ -10,7 +10,7 @@ const URL_ENDPOINT = 'https://ik.imagekit.io/gezkccajj';
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [view, setView] = useState('home'); // 'home', 'galleries', or 'contact'
+  const [view, setView] = useState('home'); // 'home' or 'contact'
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -47,32 +47,15 @@ function App() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <section className="pt-24 pb-8 px-6 text-center max-w-4xl mx-auto">
+                <section className="pt-28 pb-12 px-6 text-center max-w-4xl mx-auto">
                   <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6">
                     A Journey Through <br /> The <span className="text-gray-400">Lens.</span>
                   </h1>
                   <p className="text-gray-500 text-lg md:text-xl font-medium leading-relaxed">
-                    Exploring the intersection of light, shadow, and emotion.
+                    Explore our curated galleries featuring moments of light, shadow, and pure emotion.
                   </p>
                 </section>
-                <Gallery onOpenImage={setSelectedImage} view="home" />
-              </motion.div>
-            )}
-            
-            {view === 'galleries' && (
-              <motion.div
-                key="galleries-page"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <section className="pt-24 pb-4 px-6 text-center max-w-4xl mx-auto">
-                  <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-3">
-                    Media <span className="text-gray-400">Library.</span>
-                  </h1>
-                  <p className="text-gray-400 text-base font-medium">Organized ceremonial archives.</p>
-                </section>
-                <Gallery onOpenImage={setSelectedImage} view="galleries" />
+                <Gallery onOpenImage={setSelectedImage} />
               </motion.div>
             )}
 
