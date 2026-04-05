@@ -47,14 +47,6 @@ function App() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <section className="pt-28 pb-12 px-6 text-center max-w-4xl mx-auto">
-                  <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6">
-                    A Journey Through <br /> The <span className="text-gray-400">Lens.</span>
-                  </h1>
-                  <p className="text-gray-500 text-lg md:text-xl font-medium leading-relaxed">
-                    Explore our curated galleries featuring moments of light, shadow, and pure emotion.
-                  </p>
-                </section>
                 <Gallery onOpenImage={setSelectedImage} />
               </motion.div>
             )}
