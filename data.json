@@ -1,0 +1,22 @@
+[
+  {
+    "id": "anniversary",
+    "title": "Anniversary Collection",
+    "cover": "Anniversary/DSC_0002.JPG",
+    "count": 150,
+    "prefix": "Anniversary/DSC_",
+    "padLength": 4,
+    "extension": "JPG",
+    "isImageKit": true
+  },
+  {
+    "id": "birthday",
+    "title": "Birthday Celebration",
+    "cover": "Birthday/1.jpg",
+    "count": 17,
+    "prefix": "Birthday/",
+    "padLength": 0,
+    "extension": "jpg",
+    "isImageKit": true
+  }
+]

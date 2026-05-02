@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Image as IKImage } from '@imagekit/react';
 import { motion } from 'framer-motion';
 
 
@@ -25,19 +24,14 @@ const GalleryCard = ({ id, img, onOpen }) => {
           <div className="absolute inset-0 bg-gray-100 animate-pulse rounded-[1.5rem]" />
         )}
         <div className="overflow-hidden rounded-[1.5rem]">
-          <IKImage 
-            urlEndpoint="https://ik.imagekit.io/gezkccajj"
-            src={img}
-            transformation={[{
-              height: 1000,
-              quality: 85,
-              format: 'auto'
-            }]}
-            lqip={{ active: true, quality: 20, blur: 15 }}
+          {/* img is already a full absolute URL — no IKImage transformation needed */}
+          <img 
+            src={`${img}?tr=w-800,q-85,f-auto`}
             loading="lazy"
             className={`w-full object-cover transition-all duration-1000 ease-out group-hover:scale-110 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-xl'}`}
             onLoad={() => setIsLoaded(true)}
             onError={() => setHasError(true)}
+            alt="Gallery photo"
           />
         </div>
         <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -47,3 +41,4 @@ const GalleryCard = ({ id, img, onOpen }) => {
 };
 
 export default GalleryCard;
+

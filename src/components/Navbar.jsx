@@ -13,12 +13,12 @@ const Navbar = ({ setView, currentView }) => {
       setView('home');
     } else if (target === 'contact') {
       setView('contact');
+    } else if (target === 'admin') {
+      setView('admin');
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  const navItems = ['Home', 'Contact'];
-
+  const navItems = ['Home', 'Contact', 'Admin'];
   return (
     <header className="glass-nav fixed top-0 w-full z-40">
       <div className="flex items-center justify-between px-6 md:px-12 py-4 max-w-[1920px] mx-auto">

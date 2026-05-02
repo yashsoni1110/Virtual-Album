@@ -1,32 +1,36 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Save } from 'lucide-react';
-import { Image as IKImage } from '@imagekit/react';
 
 const Lightbox = ({ selectedImage, onClose }) => {
   if (!selectedImage) return null;
 
-  const handleDownload = async (e) => {
+  // selectedImage.img is already a full URL (e.g. https://ik.imagekit.io/...)
+  const imageUrl = selectedImage.img;
+
+  const handleDownload = (e) => {
     e.preventDefault();
     e.stopPropagation();
     
-    try {
-      const imageUrl = `https://ik.imagekit.io/gezkccajj/${selectedImage.img}?ik-attachment=true`;
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = selectedImage.img.split('/').pop() || 'photo.jpg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Download failed:', error);
-      // Fallback to direct link if fetch fails
-      window.open(`https://ik.imagekit.io/gezkccajj/${selectedImage.img}`, '_blank');
+    // Ensure we don't have a double URL if someone passed a relative path by mistake
+    let finalUrl = imageUrl;
+    if (!finalUrl.startsWith('http')) {
+      const endpoint = import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/gezkccajj';
+      finalUrl = `${endpoint.replace(/\/$/, '')}/${finalUrl.replace(/^\//, '')}`;
     }
+    
+    // Add ik-attachment=true to trigger download
+    const downloadUrl = finalUrl.includes('?') ? `${finalUrl}&ik-attachment=true` : `${finalUrl}?ik-attachment=true`;
+    
+    // Direct download via window.open is more reliable for ImageKit than fetch+blob if CORS isn't perfect
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.target = '_blank';
+    link.download = finalUrl.split('/').pop()?.split('?')[0] || 'photo.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
+
 
   return (
     <AnimatePresence>
@@ -53,13 +57,10 @@ const Lightbox = ({ selectedImage, onClose }) => {
           className="max-w-7xl w-full flex flex-col items-center gap-6"
           onClick={(e) => e.stopPropagation()}
         >
-          <IKImage 
-            src={selectedImage.img}
-            transformation={[{
-              quality: 90,
-              format: 'auto'
-            }]}
-            className="max-h-[80vh] rounded-2xl shadow-2xl object-contain" 
+          {/* Use a plain <img> since imageUrl is already a full absolute URL */}
+          <img 
+            src={`${imageUrl}?tr=q-90,f-auto`}
+            className="max-h-[80vh] rounded-2xl shadow-2xl object-contain w-auto" 
             alt="Photography"
           />
           <div className="flex flex-col items-center gap-2">
