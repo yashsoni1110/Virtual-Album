@@ -107,37 +107,46 @@ const AdminPanel = () => {
     if (!selectedFolderUpload || !files || files.length === 0) {
       return alert('Please select a folder and at least one file.');
     }
-    setUploadStatus(`Uploading ${files.length} images...`);
-    setIsLoading(true);
     
-    const formData = new FormData();
-    formData.append('folderId', selectedFolderUpload);
-    // Append each file with the same key 'images' as expected by upload.array('images')
-    Array.from(files).forEach(f => {
-      formData.append('images', f);
-    });
-
-    try {
-      const res = await fetch(`${API_URL}/admin/images`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      const data = await res.json();
-      if (data.success) {
-        setUploadStatus(`Successfully uploaded ${data.count} images!`);
-        setFiles([]);
-        if (fileInputRef.current) fileInputRef.current.value = '';
-        fetchAllImages();
-        setTimeout(() => setUploadStatus(''), 5000);
-      } else {
-        setUploadStatus(`Error: ${data.message}`);
+    setIsLoading(true);
+    let successCount = 0;
+    const totalFiles = files.length;
+    
+    for (let i = 0; i < totalFiles; i++) {
+      setUploadStatus(`Uploading image ${i + 1} of ${totalFiles}... (${totalFiles - i - 1} left)`);
+      
+      const formData = new FormData();
+      formData.append('folderId', selectedFolderUpload);
+      formData.append('images', files[i]);
+      
+      try {
+        const res = await fetch(`${API_URL}/admin/images`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          successCount += data.count;
+        } else {
+          console.error(`Error uploading file ${i + 1}: ${data.message}`);
+        }
+      } catch (err) {
+        console.error(`Upload failed for file ${i + 1}`, err);
       }
-    } catch (err) {
-      setUploadStatus('Upload failed.');
-    } finally {
-      setIsLoading(false);
     }
+    
+    if (successCount === totalFiles) {
+      setUploadStatus(`Successfully uploaded all ${successCount} images!`);
+    } else {
+      setUploadStatus(`Finished. Uploaded ${successCount} out of ${totalFiles} images.`);
+    }
+    
+    setFiles([]);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+    fetchAllImages();
+    setTimeout(() => setUploadStatus(''), 5000);
+    setIsLoading(false);
   };
 
   const handleDeleteFolder = async (folderId, folderName) => {
