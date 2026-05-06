@@ -102,7 +102,7 @@ app.post('/api/admin/images', authenticateAdmin, upload.array('images'), async (
       const response = await imagekit.upload({
         file: file.buffer.toString('base64'),
         fileName: file.originalname,
-        folder: `/webalbum/${folder.name}`
+        folder: `/webalbum/${folder.name.replace(/[^a-zA-Z0-9-_]/g, '_')}`
       });
 
       // Save to MongoDB

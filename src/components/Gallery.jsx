@@ -57,8 +57,10 @@ const Gallery = ({ onOpenImage }) => {
       const res = await fetch(`${API_URL}/images`);
       const data = await res.json();
       // Take up to 10 random images for marquee
-      const shuffled = data.sort(() => 0.5 - Math.random());
-      setMarqueeImages(shuffled.slice(0, 10));
+      if (Array.isArray(data)) {
+        const shuffled = data.sort(() => 0.5 - Math.random());
+        setMarqueeImages(shuffled.slice(0, 10));
+      }
     } catch (err) {
       console.error('Error fetching marquee images:', err);
     }
