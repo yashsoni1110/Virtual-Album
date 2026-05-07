@@ -23,7 +23,7 @@ const AdminPanel = () => {
 
   const [expandedFolder, setExpandedFolder] = useState(null);
 
-  const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
+  const API_URL = import.meta.env.VITE_BACKEND_URL || `http://${window.location.hostname}:5000/api`;
 
   useEffect(() => {
     if (token) {

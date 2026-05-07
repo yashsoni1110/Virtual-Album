@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import GalleryCard from './GalleryCard';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_BACKEND_URL || `http://${window.location.hostname}:5000/api`;
 const URL_ENDPOINT = import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/gezkccajj';
 
 const Gallery = ({ onOpenImage }) => {
